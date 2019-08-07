@@ -1,1 +1,2 @@
 # 2DSidescrollerSteuerung
+Leider habe ich es nichtmehr geschafft, für die Abfrage des Inputs vom LeftShift einen InputButton anzulegen und eigenltich war es auch geplant das MovementScript aufzuspalten in ein Input_Player und ein MovementFromInput Script, damit verschiedene Arten des Inputs (Player, Per Script, etc.) mit dem MovementScript möglich sind. Am Ende blieb dafür aber nicht mehr genügend Zeit. 
