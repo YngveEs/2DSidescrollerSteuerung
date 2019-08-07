@@ -211,11 +211,11 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 10
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &97381102
 CapsuleCollider2D:
@@ -281,9 +281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 708a2dc0fe35c2648999147dd5e19381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 10
-  jumpSpeed: 2
+  walkSpeed: 10
+  runSpeed: 20
+  jumpSpeed: 35
+  running: 0
+  jumping: 0
 --- !u!1 &373433858
 GameObject:
   m_ObjectHideFlags: 0

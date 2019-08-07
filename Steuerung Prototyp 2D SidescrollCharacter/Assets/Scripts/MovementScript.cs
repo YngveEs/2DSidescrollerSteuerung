@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,11 +11,16 @@ public class MovementScript : MonoBehaviour
     public float runSpeed = 20f;
     public float jumpSpeed = 5f;
 
+    [Header("Check Status")]
+    public bool running;
+    public bool jumping;
+
 
     private Rigidbody2D rigidB;
     private Animator anim;
     private GroundChecker groundCheck;
 
+    public bool FacingRight { get; private set; } = true;
 
     void Awake()
     {
@@ -26,12 +32,11 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateAnimator();
         if (Input.GetAxis("Horizontal") < 0.01f || Input.GetAxis("Horizontal") > 0.01f)
         {
             if (groundCheck.IsGrounded())
                 Walk();
-            else
-                Fall();
         }
         if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded())
         {
@@ -40,17 +45,33 @@ public class MovementScript : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             Run();
+            running = true;
+        }
+        else if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            running = false;
         }
     }
+
+
     void Walk()
     {
         rigidB.velocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, rigidB.velocity.y);
+
+        if ((FacingRight && Input.GetAxis("Horizontal") < 0) || (!FacingRight && Input.GetAxis("Horizontal") > 0))
+        {
+            Flip();
+        }
     }
 
     void Run()
     {
         rigidB.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed, rigidB.velocity.y);
 
+        if ((FacingRight && Input.GetAxis("Horizontal") < 0) || (!FacingRight && Input.GetAxis("Horizontal") > 0))
+        {
+            Flip();
+        }
     }
 
     void Jump()
@@ -58,8 +79,18 @@ public class MovementScript : MonoBehaviour
         rigidB.velocity = new Vector2(rigidB.velocity.x, jumpSpeed);
 
     }
-    void Fall()
+    public void Flip()
     {
-        print("Falling!");
+        gameObject.transform.localScale = Vector3.Scale(gameObject.transform.localScale, new Vector3(-1, 1, 1));
+        FacingRight = !FacingRight;
+    }
+
+
+    private void UpdateAnimator()
+    {
+        anim.SetFloat("velocityX", Mathf.Abs(rigidB.velocity.x));
+        anim.SetFloat("velocityY", rigidB.velocity.y);
+
+        anim.SetBool("running", running);
     }
 }
